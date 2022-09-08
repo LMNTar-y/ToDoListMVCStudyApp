@@ -1,4 +1,22 @@
+using Microsoft.EntityFrameworkCore;
+using NLog.Extensions.Logging;
+using ToDoList.Infrastructure;
+using ToDoList.Main.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ToDoContext>(
+    options =>
+        options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"])
+);
+
+builder.Services.AddLogging(loggingBuilder =>
+{
+    // configure Logging with NLog
+    loggingBuilder.ClearProviders();
+    loggingBuilder.SetMinimumLevel(LogLevel.Trace);
+    loggingBuilder.AddNLog();
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -18,7 +36,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

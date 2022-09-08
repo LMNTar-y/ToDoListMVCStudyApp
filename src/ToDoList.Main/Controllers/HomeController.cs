@@ -1,32 +1,74 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using ToDoList.Main.Models;
+using Microsoft.EntityFrameworkCore;
+using ToDoList.Infrastructure;
+using ToDoList.Infrastructure.Models;
+using ToDoList.Main.Model;
 
 namespace ToDoList.Main.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ToDoContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ToDoContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var todos = new ToDoViewModel();
+            todos.ToDoList = await GetAllToDos();
+            return View(todos);
         }
 
-        public IActionResult Privacy()
+        public async Task<List<ToDo>> GetAllToDos()
         {
-            return View();
+            return await _context.ToDo.ToListAsync();
+
+        }
+        public async Task<RedirectToActionResult> Insert(ToDo toDo)
+        {
+            try
+            {
+                _context.ToDo.Add(toDo);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical($"Impossible to add new ToDo item - {ex.Message}", ex);
+            }
+
+            return RedirectToAction("Index"); 
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpDelete]
+        public async Task<JsonResult> Delete(int id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var toDo = await _context.ToDo.FindAsync(id);
+            if (toDo != null)
+            {
+                _context.ToDo.Remove(toDo);
+                await _context.SaveChangesAsync();
+            }
+            return Json(new { });
+        }
+
+        public async Task<RedirectToActionResult> Update(ToDo toDo)
+        {
+            var t = await _context.ToDo.FindAsync(toDo.Id);
+            t.Name = toDo.Name;
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> PopulateForm(int id)
+        {
+            var toDo = await _context.ToDo.FindAsync(id);
+            return toDo == null ? Json(new {}) : Json(toDo);
         }
     }
 }
