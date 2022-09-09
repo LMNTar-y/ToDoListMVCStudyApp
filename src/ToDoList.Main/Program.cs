@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ToDoContext>(
     options =>
-        options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"])
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
 builder.Services.AddTransient<IToDoRepository, ToDoRepository>();
