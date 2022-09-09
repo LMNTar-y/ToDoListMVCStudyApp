@@ -1,74 +1,56 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ToDoList.Infrastructure;
+using ToDoList.Core.Services;
 using ToDoList.Infrastructure.Models;
 using ToDoList.Main.Model;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace ToDoList.Main.Controllers
+namespace ToDoList.Main.Controllers;
+
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly IToDoService _service;
+
+    public HomeController(IToDoService service)
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly ToDoContext _context;
+        _service = service ?? throw new ArgumentNullException($"Initialization failure due to: {service}");
+    }
 
-        public HomeController(ILogger<HomeController> logger, ToDoContext context)
-        {
-            _logger = logger;
-            _context = context;
-        }
+    public async Task<IActionResult> Index()
+    {
+        var todos = new ToDoViewModel();
+        todos.ToDoList = (await GetAllToDos()).ToList();
+        return View(todos);
+    }
 
-        public async Task<IActionResult> Index()
-        {
-            var todos = new ToDoViewModel();
-            todos.ToDoList = await GetAllToDos();
-            return View(todos);
-        }
+    public async Task<IEnumerable<ToDo>> GetAllToDos()
+    {
+        return await _service.GetAllToDosAsync();
+    }
 
-        public async Task<List<ToDo>> GetAllToDos()
-        {
-            return await _context.ToDo.ToListAsync();
+    public async Task<RedirectToActionResult> Insert(ToDo toDo)
+    {
+        await _service.CreateNewToDoAsync(toDo);
 
-        }
-        public async Task<RedirectToActionResult> Insert(ToDo toDo)
-        {
-            try
-            {
-                _context.ToDo.Add(toDo);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogCritical($"Impossible to add new ToDo item - {ex.Message}", ex);
-            }
+        return RedirectToAction("Index");
+    }
 
-            return RedirectToAction("Index"); 
-        }
+    [HttpDelete]
+    public async Task<JsonResult> Delete(int id)
+    {
+        var result = await _service.DeleteToDoAsync(id);
+        return Json(new { result });
+    }
 
-        [HttpDelete]
-        public async Task<JsonResult> Delete(int id)
-        {
-            var toDo = await _context.ToDo.FindAsync(id);
-            if (toDo != null)
-            {
-                _context.ToDo.Remove(toDo);
-                await _context.SaveChangesAsync();
-            }
-            return Json(new { });
-        }
+    public async Task<RedirectToActionResult> Update(ToDo toDo)
+    {
+        await _service.UpdateToDoAsync(toDo);
+        return RedirectToAction("Index");
+    }
 
-        public async Task<RedirectToActionResult> Update(ToDo toDo)
-        {
-            var t = await _context.ToDo.FindAsync(toDo.Id);
-            t.Name = toDo.Name;
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        [HttpGet]
-        public async Task<JsonResult> PopulateForm(int id)
-        {
-            var toDo = await _context.ToDo.FindAsync(id);
-            return toDo == null ? Json(new {}) : Json(toDo);
-        }
+    [HttpGet]
+    public async Task<JsonResult> PopulateForm(int id)
+    {
+        var toDo = await _service.GetToDoByIdAsync(id);
+        return Json(toDo);
     }
 }

@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using NLog.Extensions.Logging;
+using ToDoList.Core.Services;
 using ToDoList.Infrastructure;
+using ToDoList.Infrastructure.Repo;
 using ToDoList.Main.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,9 @@ builder.Services.AddDbContext<ToDoContext>(
     options =>
         options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"])
 );
+
+builder.Services.AddTransient<IToDoRepository, ToDoRepository>();
+builder.Services.AddTransient<IToDoService, ToDoService>();
 
 builder.Services.AddLogging(loggingBuilder =>
 {
