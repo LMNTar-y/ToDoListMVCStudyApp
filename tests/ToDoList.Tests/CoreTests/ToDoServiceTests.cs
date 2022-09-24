@@ -1,7 +1,5 @@
-using Castle.Core.Logging;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
 using ToDoList.Core.Services;
 using ToDoList.Infrastructure.Models;
 using ToDoList.Tests.ServiceMocks;
@@ -77,11 +75,12 @@ namespace ToDoList.Tests.CoreTests
             //Arrange
             _repositoryMock = new ToDoRepositoryMock();
             _repositoryMock.Setup_GetById_WithException();
+            int id = 1;
 
             _sut = new ToDoService(_repositoryMock.Object, _loggerMock.Object);
 
             //Act
-            Func<Task> act = async () => await _sut.GetToDoByIdAsync(1);
+            Func<Task> act = async () => await _sut.GetToDoByIdAsync(id);
 
             //Assert 
             await Assert.ThrowsAsync<Exception>(act);
@@ -95,11 +94,12 @@ namespace ToDoList.Tests.CoreTests
 
             var dataToTest = new ToDo { Id = 1, Name = "Test" };
             _repositoryMock.Setup_GetById_WithCustomResponse(dataToTest);
+            int id = 1;
 
             _sut = new ToDoService(_repositoryMock.Object, _loggerMock.Object);
 
             //Act
-            var result = await _sut.GetToDoByIdAsync(1);
+            var result = await _sut.GetToDoByIdAsync(id);
 
             //Assert 
             Assert.NotNull(result);
@@ -192,11 +192,12 @@ namespace ToDoList.Tests.CoreTests
             //Arrange
             _repositoryMock = new ToDoRepositoryMock();
             _repositoryMock.Setup_Delete_WithException();
+            int id = 1;
 
             _sut = new ToDoService(_repositoryMock.Object, _loggerMock.Object);
 
             //Act
-            Func<Task> act = async () => await _sut.DeleteToDoAsync(1);
+            Func<Task> act = async () => await _sut.DeleteToDoAsync(id);
 
             //Assert 
             await Assert.ThrowsAsync<Exception>(act);
@@ -208,11 +209,12 @@ namespace ToDoList.Tests.CoreTests
             //Arrange
             _repositoryMock = new ToDoRepositoryMock();
             _repositoryMock.Setup_Delete_WithCustomResponse(true);
+            int id = 1;
 
             _sut = new ToDoService(_repositoryMock.Object, _loggerMock.Object);
 
             //Act
-            var result = await _sut.DeleteToDoAsync(1);
+            var result = await _sut.DeleteToDoAsync(id);
 
             //Assert 
             Assert.True(result);

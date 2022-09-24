@@ -8,9 +8,11 @@
         <h1 class="display-4">ToDoList task Implementation</h1>
     </div>
     <div class="row">
-        <div class="col-md-3 offset-md-9 text-right">
+        <div class="col-md-3 offset-md-0 text-lg-start">
             <p>
-                <a class="btn btn-success" asp-action="Create">New Item</a>
+                <a class="btn btn-success" asp-action="Create">
+                    <i class="bi bi-patch-plus"></i> New Task
+                </a>
             </p>
         </div>
     </div>
@@ -31,9 +33,13 @@
                     <td> @item.Id </td>
                     <td> @item.Name </td>
                     <td>
-                        <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
 
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                            <i class="bi bi-x-square"></i> Delete
+                        </a>
                     </td>
                 </tr>
             }

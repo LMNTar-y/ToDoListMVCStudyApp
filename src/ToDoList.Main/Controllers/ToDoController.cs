@@ -16,12 +16,7 @@ public class ToDoController : Controller
     // GET
     public async Task<IActionResult> Index()
     {
-        var toDoDetails = await _service.GetAllToDosAsync();
-
-        if (toDoDetails is null)
-        {
-            toDoDetails = new List<ToDo>();
-        }
+        var toDoDetails = await _service.GetAllToDosAsync() ?? new List<ToDo>();
 
         return View(toDoDetails);
     }

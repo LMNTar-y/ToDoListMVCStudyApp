@@ -24,19 +24,25 @@
             </div>
             <br/>
             <div class="row">
-                <div class="col">
+                <div class="col-md-3 offset-md-9 text-lg-end">
                     <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-success" />
+                        <input type="submit" value="Update" class="btn btn-success" />
                     </div>
                 </div>
             </div>
         </form>
         <br/>
         <div class="row">
-            <div class="col">
+            <div class="col-md-3 offset-md-9 text-lg-end">
                 <a class="btn btn-danger" asp-action="Index">Back to List</a>
             </div>   
         </div>
     </div>
 </div>
 
+@section Scripts
+    {
+        @{
+            <partial name="_ValidationScriptsPartial"/>
+        }
+    }
