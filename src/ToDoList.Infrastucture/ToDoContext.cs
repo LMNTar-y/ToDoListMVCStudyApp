@@ -28,7 +28,8 @@ public class ToDoContext : DbContext
     {
         modelBuilder.Entity<ToDo>(entity =>
         {
-            entity.Property(e => e.Name).HasMaxLength(255);
+            entity.Property(e => e.Title).HasMaxLength(255);
+            entity.Property(x => x.DateTime).IsRequired();
         });
     }
 

@@ -1,27 +1,21 @@
 ﻿@model System.Collections.Generic.List<ToDoList.Infrastructure.Models.ToDo>
 
 <div class="container">
-    <br>
-    <br>
-    <br>
-    <div class="text-center">
-        <h1 class="display-4">ToDoList task Implementation</h1>
+
+    <div style="padding-top: 20px;" class="text-center">
+        <h1 class="display-6">ToDoList task Implementation</h1>
     </div>
-    <div class="row">
-        <div class="col-md-3 offset-md-0 text-lg-start">
-            <p>
-                <a class="btn btn-success" asp-action="Create">
-                    <i class="bi bi-patch-plus"></i> New Task
-                </a>
-            </p>
-        </div>
+    <div class="row, col-md-2 text-lg-start" style="padding-bottom: 10px">
+        <a class="btn btn-success" asp-action="Create">
+            <i class="bi bi-patch-plus"></i> New Task
+        </a>
     </div>
     <div class="row">
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th style="width:5%"> Id </th>
-                <th style="width:75%"> Description </th>
+                <th style="width:70%"> Description </th>
+                <th style="width:15%"> To do date </th>
                 <th> Action </th>
             </tr>
             </thead>
@@ -30,8 +24,8 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td> @item.Id </td>
-                    <td> @item.Name </td>
+                    <td> @item.Title </td>
+                    <td> @item.DateTime </td>
                     <td>
                         <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">
                             <i class="bi bi-pencil-square"></i> Edit

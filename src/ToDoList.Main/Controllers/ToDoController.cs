@@ -37,7 +37,7 @@ public class ToDoController : Controller
 
             if (saveStatus)
             {
-                TempData["Success"] = "Success";
+                TempData["Success"] = "The item has been created!";
 
                 return RedirectToAction("Index");
             }

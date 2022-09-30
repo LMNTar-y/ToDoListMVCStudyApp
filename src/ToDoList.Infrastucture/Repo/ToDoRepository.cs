@@ -32,7 +32,8 @@ public class ToDoRepository : IToDoRepository
     public async Task<bool> UpdateAsync(ToDo toDo)
     {
         var task = await _context.ToDo.FindAsync(toDo.Id) ?? throw new ArgumentNullException(nameof(toDo), $"The task with {toDo.Id} was not found in the Db");
-        task.Name = toDo.Name;
+        task.Title = toDo.Title;
+        task.DateTime = toDo.DateTime;
         await _context.SaveChangesAsync();
         return true;
     }

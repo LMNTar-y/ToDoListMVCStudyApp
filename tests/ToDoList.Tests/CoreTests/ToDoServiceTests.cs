@@ -52,7 +52,7 @@ namespace ToDoList.Tests.CoreTests
             //Arrange
             _repositoryMock = new ToDoRepositoryMock();
 
-            IEnumerable<ToDo> dataToTest = new List<ToDo>() { new() { Id = 1, Name = "Test" } };
+            IEnumerable<ToDo> dataToTest = new List<ToDo>() { new() { Id = 1, Title = "Test" } };
             _repositoryMock.Setup_GetAll_WithCustomResponse(dataToTest);
 
             _sut = new ToDoService(_repositoryMock.Object, _loggerMock.Object);
@@ -92,7 +92,7 @@ namespace ToDoList.Tests.CoreTests
             //Arrange
             _repositoryMock = new ToDoRepositoryMock();
 
-            var dataToTest = new ToDo { Id = 1, Name = "Test" };
+            var dataToTest = new ToDo { Id = 1, Title = "Test" };
             _repositoryMock.Setup_GetById_WithCustomResponse(dataToTest);
             int id = 1;
 
@@ -104,7 +104,7 @@ namespace ToDoList.Tests.CoreTests
             //Assert 
             Assert.NotNull(result);
             Assert.Equal(dataToTest.Id, result.Id);
-            Assert.Equal(dataToTest.Name, result.Name);
+            Assert.Equal(dataToTest.Title, result.Title);
         }
 
         #endregion
@@ -133,7 +133,7 @@ namespace ToDoList.Tests.CoreTests
             //Arrange
             _repositoryMock = new ToDoRepositoryMock();
 
-            var dataToTest = new ToDo { Name = "Test" };
+            var dataToTest = new ToDo { Title = "Test" };
             _repositoryMock.Setup_AddNew_WithCustomResponse(true);
 
             _sut = new ToDoService(_repositoryMock.Object, _loggerMock.Object);
@@ -171,7 +171,7 @@ namespace ToDoList.Tests.CoreTests
             //Arrange
             _repositoryMock = new ToDoRepositoryMock();
 
-            var dataToTest = new ToDo { Id = 1, Name = "Test" };
+            var dataToTest = new ToDo { Id = 1, Title = "Test" };
             _repositoryMock.Setup_Update_WithCustomResponse(true);
 
             _sut = new ToDoService(_repositoryMock.Object, _loggerMock.Object);
