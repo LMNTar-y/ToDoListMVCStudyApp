@@ -1,8 +1,8 @@
 ﻿
-@model ToDoList.Infrastructure.Models.ToDo
+@model ToDo
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "- Edit";
 }
 <div class="container">
     <div style="padding-top: 20px;" class="text-center">
@@ -30,8 +30,6 @@
 </div>
 
 @section Scripts
-    {
-        @{
-            <partial name="_ValidationScriptsPartial"/>
-        }
-    }
+{
+    @{<partial name="_ValidationScriptsPartial"/>}
+}

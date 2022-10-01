@@ -1,9 +1,8 @@
 ﻿
-@using NuGet.Protocol
-@model ToDoList.Infrastructure.Models.ToDo
+@model ToDo
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "- Create";
 }
 <div class="container">
     <div style="padding-top:20px;" class="text-center">
@@ -16,7 +15,7 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="col-auto">
-                <input id="date-time" asp-for="DateTime" type="datetime-local" class="form-control" placeholder="Enter to do date and time"/>
+                <input id="date-time" asp-for="DateTime" type="datetime-local" class="form-control"/>
                 <span asp-validation-for="DateTime" class="text-danger"></span>
             </div>
             <div class="col-md-3 offset-md-9 text-lg-end" style="padding-top: 5px; padding-bottom: 5px">
