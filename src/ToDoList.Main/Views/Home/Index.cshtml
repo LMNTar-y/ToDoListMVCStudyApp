@@ -2,15 +2,24 @@
     ViewData["Title"] = "- Home page";
 }
 
+<div class="d-flex justify-content-center">
+    <h1 class="display-4" style="padding: 30px">ToDoList task Requirements</h1>
+</div>
+
 <div class="text-center">
-    
-    <br>     <br>     <br>
-    <h1 class="display-4">ToDoList task Requirements</h1>
+    <h4>Create MVC application to perform next actions:</h4>
+</div>
 
-    <p>Create MVC application to perform next actions</p>
-    <p>• A user should be able to add a new task to a list that contains a title.</p>
-    <p>• A user should be able to edit a task.</p>
-    <p>• A user should be able to delete a task.</p>
+<div class="d-flex justify-content-center">
 
+    <ul>
+        <li>A user should be able to add a new task to a list that contains a title.</li>
+        <li>A user should be able to edit a task.</li>
+        <li>A user should be able to delete a task.</li>
+    </ul>
+
+</div>
+
+<div style="text-align: center">
     <input type="button" class="btn btn-primary btn-lg"  value="Actual implementation" onclick="@("window.location.href='" + @Url.Action("index", "ToDo") + "'");" />
 </div>

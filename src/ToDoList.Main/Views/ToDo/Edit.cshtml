@@ -8,10 +8,10 @@
     <div style="padding-top: 20px;" class="text-center">
         <h1 class="display-6">Edit Task Details</h1>
 
-        <form asp-action="Edit" class="row">
+        <form asp-antiforgery="true" asp-action="Edit" class="row">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="col">
-                <input asp-for="Title" class="form-control" placeholder="Description"/>
+                <textarea asp-for="Title" rows="3" class="form-control" placeholder="Description"></textarea>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="col-auto">

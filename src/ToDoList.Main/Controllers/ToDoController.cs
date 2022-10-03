@@ -29,6 +29,7 @@ public class ToDoController : Controller
 
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(ToDo toDo)
     {
         if (ModelState.IsValid)
